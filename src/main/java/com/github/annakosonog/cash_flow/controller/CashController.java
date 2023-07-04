@@ -1,6 +1,6 @@
 package com.github.annakosonog.cash_flow.controller;
 
-import com.github.annakosonog.cash_flow.model.Cash;
+import com.github.annakosonog.cash_flow.model.CashDto;
 import com.github.annakosonog.cash_flow.service.CashService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +21,17 @@ public class CashController {
     private final CashService cashService;
 
     @GetMapping
-    public ResponseEntity<List<Cash>> getAllCashFlow() {
+    public ResponseEntity<List<CashDto>> getAllCashFlow() {
         return ResponseEntity.ok(cashService.getAllCashFlow());
     }
 
     @GetMapping("/{shop}")
-    public ResponseEntity<List<Cash>> getAllCashFlowWithGivenStore(@PathVariable String shop) {
+    public ResponseEntity<List<CashDto>> getAllCashFlowWithGivenStore(@PathVariable String shop) {
         return ResponseEntity.ok(cashService.getCashByShop(shop));
     }
 
     @PostMapping
-    public ResponseEntity<Void> addNewCost(@RequestBody Cash newCash) {
+    public ResponseEntity<Void> addNewCost(@RequestBody CashDto newCash) {
         cashService.getAddNewCash(newCash);
         return ResponseEntity.ok().build();
     }
