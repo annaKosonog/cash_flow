@@ -32,7 +32,7 @@ public class CashController {
 
     @PostMapping
     public ResponseEntity<Void> addNewCost(@RequestBody CashDto newCash) {
-        cashService.addNewCash(newCash);
+        cashService.addNewCashFlow(newCash);
         return ResponseEntity.ok().build();
     }
 }

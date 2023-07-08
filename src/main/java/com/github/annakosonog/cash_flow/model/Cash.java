@@ -1,6 +1,4 @@
 package com.github.annakosonog.cash_flow.model;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

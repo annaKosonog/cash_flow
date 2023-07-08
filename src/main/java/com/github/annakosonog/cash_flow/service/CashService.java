@@ -1,5 +1,4 @@
 package com.github.annakosonog.cash_flow.service;
-
 import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
 import com.github.annakosonog.cash_flow.model.CashDto;
@@ -17,7 +16,6 @@ public class CashService {
     private final CashMapper cashMapper;
     private final CashRepositoryImpl cashRepositoryImp;
 
-
     public List<CashDto> getAllCashFlow() {
         return cashRepositoryImp.findAll()
                 .stream()
@@ -25,14 +23,13 @@ public class CashService {
                 .collect(Collectors.toList());
     }
 
-    public void addNewCash(CashDto newCash) {
+    public void addNewCashFlow(CashDto newCash) {
         if (!isValid(newCash)) {
             throw new InvalidDetailsException("Invalid cash data");
         }
         cashRepositoryImp.addNewCash(cashMapper.cashDtoToCash(newCash));
         System.out.println("Added new cash_flow");
     }
-
 
     public List<CashDto> getCashByShop(String shop) {
         return cashRepositoryImp.findByShop(shop)

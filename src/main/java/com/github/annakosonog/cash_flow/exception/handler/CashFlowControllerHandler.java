@@ -1,5 +1,4 @@
 package com.github.annakosonog.cash_flow.exception.handler;
-
 import com.github.annakosonog.cash_flow.exception.CashFlowException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

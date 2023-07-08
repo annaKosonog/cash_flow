@@ -1,20 +1,18 @@
 package com.github.annakosonog.cash_flow.repository;
-
 import com.github.annakosonog.cash_flow.model.Cash;
 import com.github.annakosonog.cash_flow.model.Shop;
 import org.springframework.stereotype.Repository;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class CashRepositoryImpl implements CashRepository {
 
     private List<Cash> tomorrow() {
-        ArrayList<Cash> cash = new ArrayList<>();
+        List<Cash> cash = new ArrayList<>();
 
         Cash first = Cash.builder()
                 .date(LocalDate.of(2023, 12, 25))
@@ -45,10 +43,10 @@ public class CashRepositoryImpl implements CashRepository {
     }
 
     @Override
-    public Optional<Cash> findByShop(String shop) {
+    public List<Cash> findByShop(String shop) {
         return tomorrow().stream()
                 .filter(searchShop -> searchShop.getShop().getCategoryStore().equals(shop))
-                .findFirst();
+                .collect(Collectors.toList());
     }
 
     @Override
