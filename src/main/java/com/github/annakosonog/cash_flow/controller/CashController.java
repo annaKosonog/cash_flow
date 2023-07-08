@@ -31,8 +31,8 @@ public class CashController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addNewCost(@RequestBody CashDto newCash) {
+    public ResponseEntity<String> addNewCost(@RequestBody CashDto newCash) {
         cashService.addNewCashFlow(newCash);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Cash_flow was added successfully");
     }
 }
