@@ -5,7 +5,6 @@ import com.github.annakosonog.cash_flow.model.Cash;
 import com.github.annakosonog.cash_flow.model.CashDto;
 import com.github.annakosonog.cash_flow.model.SimpleCashDao;
 import com.github.annakosonog.cash_flow.model.SimpleCashDto;
-import com.github.annakosonog.cash_flow.repository.CashRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
