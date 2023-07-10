@@ -31,7 +31,6 @@ public class CashService {
         }
         final Cash newCash = cashMapper.cashDtoToCash(newCashDto);
         cashRepository.save(newCash);
-
     }
 
     public List<CashDto> getCashByShop(Shop shop) {
