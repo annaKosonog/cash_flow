@@ -3,9 +3,10 @@ import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
 import com.github.annakosonog.cash_flow.model.Cash;
 import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.Shop;
 import com.github.annakosonog.cash_flow.model.SimpleCashDao;
 import com.github.annakosonog.cash_flow.model.SimpleCashDto;
-import com.github.annakosonog.cash_flow.repository.CashRepositoryImpl;
+import com.github.annakosonog.cash_flow.repository.CashRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +20,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,14 +32,14 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
     private CashMapper cashMapper;
 
     @Mock
-    private CashRepositoryImpl cashRepositoryImp;
+    private CashRepository cashRepository;
 
     @InjectMocks
     private CashService cashService;
 
     @Test
     void getAllCashFlow_DataCorrect_FindAllCashFlow() {
-        when(cashRepositoryImp.findAll()).thenReturn(List.of(firstCashFlowDao(), secondCashFlowDao()));
+        when(cashRepository.findAll()).thenReturn(List.of(firstCashFlowDao(), secondCashFlowDao()));
         when(cashMapper.cashToCashDto(firstCashFlowDao())).thenReturn(firstCashFlowDto());
         when(cashMapper.cashToCashDto(secondCashFlowDao())).thenReturn(secondCashFlowDto());
 
@@ -52,10 +52,10 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
 
     @Test
     void addNewCash_DataCorrect_AddNewCash() {
-        doNothing().when(cashRepositoryImp).addNewCash(newExpenseDao());
+        when(cashRepository.save(newExpenseDao())).thenReturn(newExpenseDao());
         when(cashMapper.cashDtoToCash(newExpenseDto())).thenReturn(newExpenseDao());
         cashService.addNewCashFlow(newExpenseDto());
-        verify(cashRepositoryImp, times(1)).addNewCash(any(Cash.class));
+        verify(cashRepository, times(1)).save(any(Cash.class));
     }
 
     @Test
@@ -66,9 +66,9 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
 
     @Test
     void getCashByShop_DataCorrect_FindByShop() {
-        final String shop = "supermarket";
+        final Shop shop = Shop.SUPERMARKET;
         final List<Cash> expected = List.of(firstCashFlowDao(), secondSupermarketDao());
-        when(cashRepositoryImp.findByShop(shop)).thenReturn(expected);
+        when(cashRepository.findByShop(shop)).thenReturn(expected);
         when(cashMapper.cashToCashDto(firstCashFlowDao())).thenReturn(firstCashFlowDto());
         when(cashMapper.cashToCashDto(secondSupermarketDao())).thenReturn(secondSupermarketDto());
         final List<CashDto> actual = cashService.getCashByShop(shop);

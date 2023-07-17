@@ -6,9 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -17,7 +24,11 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class Cash {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private LocalDate date;
+    @Enumerated(value = EnumType.STRING)
     private Shop shop;
     private BigDecimal price;
 }
