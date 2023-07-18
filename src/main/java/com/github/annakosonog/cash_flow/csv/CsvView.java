@@ -1,6 +1,6 @@
 package com.github.annakosonog.cash_flow.csv;
 
-import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import com.github.annakosonog.cash_flow.service.CashService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -41,13 +41,13 @@ public class CsvView {
         writer.write("\uFEFF");
         ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-        List<CashDto> listCash = cashService.getAllCashFlow();
+        List<CashFlowDto> listCash = cashService.getAllCashFlow();
 
         String[] csvHeader = {"Date", "Shop", "Price"};
         String[] nameMapping = {"date", "shop", "price"};
         csvWriter.writeHeader(csvHeader);
 
-        for (CashDto dto : listCash) {
+        for (CashFlowDto dto : listCash) {
             csvWriter.write(dto, nameMapping);
         }
         csvWriter.close();

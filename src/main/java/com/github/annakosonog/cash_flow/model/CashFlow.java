@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Cash {
+public class CashFlow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CashDto {
+public class CashFlowDto {
 
     private  LocalDate date;
     private Shop shop;

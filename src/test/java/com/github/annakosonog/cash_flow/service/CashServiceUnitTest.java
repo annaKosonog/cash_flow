@@ -1,8 +1,8 @@
 package com.github.annakosonog.cash_flow.service;
 import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
-import com.github.annakosonog.cash_flow.model.Cash;
-import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.CashFlow;
+import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import com.github.annakosonog.cash_flow.model.Shop;
 import com.github.annakosonog.cash_flow.model.SimpleCashDao;
 import com.github.annakosonog.cash_flow.model.SimpleCashDto;
@@ -43,7 +43,7 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
         when(cashMapper.cashToCashDto(firstCashFlowDao())).thenReturn(firstCashFlowDto());
         when(cashMapper.cashToCashDto(secondCashFlowDao())).thenReturn(secondCashFlowDto());
 
-        final List<CashDto> actual = cashService.getAllCashFlow();
+        final List<CashFlowDto> actual = cashService.getAllCashFlow();
 
         assertEquals(actual.size(), 2);
         assertEquals("supermarket", actual.get(0).getShop().getCategoryStore());
@@ -55,7 +55,7 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
         when(cashRepository.save(newExpenseDao())).thenReturn(newExpenseDao());
         when(cashMapper.cashDtoToCash(newExpenseDto())).thenReturn(newExpenseDao());
         cashService.addNewCashFlow(newExpenseDto());
-        verify(cashRepository, times(1)).save(any(Cash.class));
+        verify(cashRepository, times(1)).save(any(CashFlow.class));
     }
 
     @Test
@@ -67,11 +67,11 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
     @Test
     void getCashByShop_DataCorrect_FindByShop() {
         final Shop shop = Shop.SUPERMARKET;
-        final List<Cash> expected = List.of(firstCashFlowDao(), secondSupermarketDao());
+        final List<CashFlow> expected = List.of(firstCashFlowDao(), secondSupermarketDao());
         when(cashRepository.findByShop(shop)).thenReturn(expected);
         when(cashMapper.cashToCashDto(firstCashFlowDao())).thenReturn(firstCashFlowDto());
         when(cashMapper.cashToCashDto(secondSupermarketDao())).thenReturn(secondSupermarketDto());
-        final List<CashDto> actual = cashService.getCashByShop(shop);
+        final List<CashFlowDto> actual = cashService.getCashByShop(shop);
         assertEquals(actual.size(), 2);
         assertEquals(actual.get(1).getPrice(), secondSupermarketDto().getPrice());
         assertEquals(actual.get(0).getPrice(), firstCashFlowDao().getPrice());

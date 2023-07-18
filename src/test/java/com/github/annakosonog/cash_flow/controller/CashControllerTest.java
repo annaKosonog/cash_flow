@@ -3,7 +3,7 @@ package com.github.annakosonog.cash_flow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import com.github.annakosonog.cash_flow.model.Shop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,12 +92,12 @@ class CashControllerTest {
         return objectMapper.writeValueAsString(obj);
     }
 
-    private void removeCash(CashDto cashDto) {
-        Objects.requireNonNull(cashController.getAllCashFlow().getBody()).remove(cashDto);
+    private void removeCash(CashFlowDto cashFlowDto) {
+        Objects.requireNonNull(cashController.getAllCashFlow().getBody()).remove(cashFlowDto);
     }
 
-    private CashDto newExampleCashFlow() {
-        return CashDto.builder()
+    private CashFlowDto newExampleCashFlow() {
+        return CashFlowDto.builder()
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.CHEMIST)
                 .price(new BigDecimal("15.20"))
