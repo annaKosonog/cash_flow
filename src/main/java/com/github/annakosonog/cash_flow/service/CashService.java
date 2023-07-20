@@ -1,4 +1,5 @@
 package com.github.annakosonog.cash_flow.service;
+
 import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
 import com.github.annakosonog.cash_flow.model.CashFlow;
@@ -7,7 +8,6 @@ import com.github.annakosonog.cash_flow.model.Shop;
 import com.github.annakosonog.cash_flow.repository.CashRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
