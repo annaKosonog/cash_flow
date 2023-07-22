@@ -42,4 +42,19 @@ public interface SimpleCashDto {
                 .price(new BigDecimal("100.80"))
                 .build();
     }
+    default CashFlowDto csvFirstDto() {
+        return CashFlowDto.builder()
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.SUPERMARKET)
+                .price(new BigDecimal("30.0"))
+                .build();
+    }
+
+    default CashFlowDto csvSecondDto() {
+        return CashFlowDto.builder()
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.GAS_STATION)
+                .price(new BigDecimal("250.0"))
+                .build();
+    }
 }

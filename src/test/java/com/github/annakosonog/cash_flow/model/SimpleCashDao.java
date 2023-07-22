@@ -1,4 +1,5 @@
 package com.github.annakosonog.cash_flow.model;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -40,6 +41,41 @@ public interface SimpleCashDao {
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("100.80"))
+                .build();
+    }
+
+    default CashFlow csvFirstDaoAfterSaved() {
+        return CashFlow.builder()
+                .id(1L)
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.SUPERMARKET)
+                .price(new BigDecimal("30.0"))
+                .build();
+    }
+    default CashFlow csvFirstDaoBeforeSaving() {
+        return CashFlow.builder()
+                .id(1L)
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.SUPERMARKET)
+                .price(new BigDecimal("30.0"))
+                .build();
+    }
+
+    default CashFlow csvSecondDaoAfterSaved() {
+        return CashFlow.builder()
+                .id(2L)
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.GAS_STATION)
+                .price(new BigDecimal("250.0"))
+                .build();
+    }
+
+    default CashFlow csvSecondDaoBeforeSaving() {
+        return CashFlow.builder()
+                .id(null)
+                .date(LocalDate.of(2023, 7, 18))
+                .shop(Shop.GAS_STATION)
+                .price(new BigDecimal("250.0"))
                 .build();
     }
 }
