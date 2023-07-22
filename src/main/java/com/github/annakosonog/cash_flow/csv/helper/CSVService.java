@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,16 +33,15 @@ public class CSVService {
         }
     }
 
-    private  List<CashFlowDto> checkingIfDateFromCsvFileIsNotAlreadyInDb(List<CashFlowDto> list) {
-        List<CashFlowDto> existsInDb = list.stream()
-                .map(cashMapper::cashDtoToCash)
-                .filter(example1 -> cashRepository.exists(Example.of(example1)))
-                .map(cashMapper::cashToCashDto)
-                .collect(Collectors.toList());
-
-        for (CashFlowDto dto : existsInDb) {
-            list.remove(dto);
+    private List<CashFlowDto> checkingIfDateFromCsvFileIsNotAlreadyInDb(List<CashFlowDto> list) {
+        List<CashFlowDto> existsInDb = new ArrayList<>();
+        for (CashFlowDto dto : list) {
+            CashFlow cashEntity = cashMapper.cashDtoToCash(dto);
+            if (cashRepository.exists(Example.of(cashEntity))) {
+                existsInDb.add(dto);
+            }
         }
+        list.removeIf(existsInDb::contains);
         return list;
     }
 }
