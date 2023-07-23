@@ -10,6 +10,6 @@ import lombok.Setter;
 public class ResponseMessage {
 
     private String message;
-    private String fileDownloadUri;
+    private String fileName;
 
 }
