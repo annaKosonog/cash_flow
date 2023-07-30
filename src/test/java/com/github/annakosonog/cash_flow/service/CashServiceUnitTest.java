@@ -1,4 +1,6 @@
 package com.github.annakosonog.cash_flow.service;
+
+import com.github.annakosonog.cash_flow.exception.DateNotFoundException;
 import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
 import com.github.annakosonog.cash_flow.model.Cash;
@@ -16,10 +18,13 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,15 +57,15 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
 
     @Test
     void addNewCash_DataCorrect_AddNewCash() {
-        when(cashRepository.save(newExpenseDao())).thenReturn(newExpenseDao());
-        when(cashMapper.cashDtoToCash(newExpenseDto())).thenReturn(newExpenseDao());
+        when(cashRepository.save(newExpenseDao())).thenReturn(newExpenseDaoWithId());
+        when(cashMapper.cashDtoToCash(newExpenseDto())).thenReturn(newExpenseDaoWithId());
         cashService.addNewCashFlow(newExpenseDto());
         verify(cashRepository, times(1)).save(any(Cash.class));
     }
 
     @Test
     void addNewCash_DataIncorrect_ThrowInvalidDetailsException() {
-        when(cashMapper.cashDtoToCash(newExpenseDtoNull())).thenReturn(newExpenseDao());
+        when(cashMapper.cashDtoToCash(newExpenseDtoNull())).thenReturn(newExpenseDaoNull());
         assertThrows(InvalidDetailsException.class, () -> cashService.addNewCashFlow(newExpenseDtoNull()));
     }
 
@@ -75,5 +80,23 @@ class CashServiceUnitTest implements SimpleCashDto, SimpleCashDao {
         assertEquals(actual.size(), 2);
         assertEquals(actual.get(1).getPrice(), secondSupermarketDto().getPrice());
         assertEquals(actual.get(0).getPrice(), firstCashFlowDao().getPrice());
+    }
+
+    @Test
+    void deleteCashFlowById_DataCorrect_DeleteObject(){
+        final Long id = 1L;
+        when(cashRepository.findById(id)).thenReturn(Optional.of(firstCashFlowDao()));
+        cashService.deleteCashFlowById(id);
+        verify(cashRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    void deleteCashFlowById_DataIncorrect_NoDeleteObject(){
+        final Long id = 11L;
+
+        when(cashRepository.findById(id)).thenReturn(Optional.empty());
+        doNothing().when(cashRepository).deleteById(id);
+        assertThrows(DateNotFoundException.class, ()-> cashService.deleteCashFlowById(id));
+        verify(cashRepository, never()).deleteById(id);
     }
 }
