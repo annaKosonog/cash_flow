@@ -3,7 +3,7 @@ package com.github.annakosonog.cash_flow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import com.github.annakosonog.cash_flow.model.Shop;
 import com.github.annakosonog.cash_flow.model.SimpleCashDto;
 import org.junit.jupiter.api.AfterEach;
@@ -106,9 +106,8 @@ class CashControllerTest implements SimpleCashDto {
         return objectMapper.writeValueAsString(obj);
     }
 
-
-    private CashDto newExampleCashFlow() {
-        return CashDto.builder()
+    private CashFlowDto newExampleCashFlow() {
+        return CashFlowDto.builder()
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.CHEMIST)
                 .price(new BigDecimal("15.20"))

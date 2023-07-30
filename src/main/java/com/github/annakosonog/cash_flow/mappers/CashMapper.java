@@ -1,6 +1,6 @@
 package com.github.annakosonog.cash_flow.mappers;
-import com.github.annakosonog.cash_flow.model.Cash;
-import com.github.annakosonog.cash_flow.model.CashDto;
+import com.github.annakosonog.cash_flow.model.CashFlow;
+import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -10,7 +10,7 @@ public interface CashMapper {
 
     CashMapper INSTANCE = Mappers.getMapper(CashMapper.class);
 
-    CashDto cashToCashDto(Cash cash);
+    CashFlowDto cashToCashDto(CashFlow cashFlow);
 
-    Cash cashDtoToCash(CashDto cashDto);
+    CashFlow cashDtoToCash(CashFlowDto cashFlowDto);
 }

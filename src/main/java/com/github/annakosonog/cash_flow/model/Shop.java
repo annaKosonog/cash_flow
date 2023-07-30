@@ -7,7 +7,8 @@ public enum Shop {
     HAIRDRESSER("hairdresser"),
     SUPERMARKET("supermarket"),
     DRUGSTORE("drugstore"),
-    CLOTHES_SHOP("clothes_shop");
+    CLOTHES_SHOP("clothes_shop"),
+    SPORT_SHOP("sport_shop");
 
     private String categoryStore;
 

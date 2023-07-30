@@ -1,10 +1,10 @@
 package com.github.annakosonog.cash_flow.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,9 +20,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Getter
-@ToString
 @EqualsAndHashCode
-public class Cash {
+public class CashFlow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,4 +30,14 @@ public class Cash {
     @Enumerated(value = EnumType.STRING)
     private Shop shop;
     private BigDecimal price;
+
+    @Override
+    public String toString() {
+        return "CashFlow " +
+                "[id=" + id +
+                ", date=" + date +
+                ", shop=" + shop +
+                ", price=" + price +
+                ']';
+    }
 }
