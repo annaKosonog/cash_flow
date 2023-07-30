@@ -1,5 +1,7 @@
 package com.github.annakosonog.cash_flow.service;
 
+
+import com.github.annakosonog.cash_flow.exception.DateNotFoundException;
 import com.github.annakosonog.cash_flow.exception.InvalidDetailsException;
 import com.github.annakosonog.cash_flow.mappers.CashMapper;
 import com.github.annakosonog.cash_flow.model.CashFlow;
@@ -40,8 +42,14 @@ public class CashService {
                 .collect(Collectors.toList());
     }
 
+
     private boolean isValid(CashFlowDto newCash) {
         return (newCash.getShop() != null && newCash.getDate() != null && newCash.getPrice() != null);
     }
-}
+    public void deleteCashFlowById(Long id) {
+        CashFlow  cash = cashRepository.findById(id)
+                .orElseThrow(() -> new DateNotFoundException("Cash_flow not found"));
+        cashRepository.deleteById(cash.getId());
+    }
+    }
 
