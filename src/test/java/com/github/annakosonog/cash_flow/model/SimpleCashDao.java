@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public interface SimpleCashDao {
     default Cash firstCashFlowDao() {
         return Cash.builder()
+                .id(1L)
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("42.80"))
@@ -13,9 +14,19 @@ public interface SimpleCashDao {
 
     default Cash secondCashFlowDao() {
         return Cash.builder()
+                .id(2L)
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.HAIRDRESSER)
                 .price(new BigDecimal("20.0"))
+                .build();
+    }
+
+    default Cash newExpenseDaoWithId() {
+        return Cash.builder()
+                .id(3L)
+                .date(LocalDate.now().plusDays(1))
+                .shop(Shop.GAS_STATION)
+                .price(new BigDecimal("50.0"))
                 .build();
     }
 
@@ -26,6 +37,7 @@ public interface SimpleCashDao {
                 .price(new BigDecimal("50.0"))
                 .build();
     }
+
 
     default Cash newExpenseDaoNull() {
         return Cash.builder()
