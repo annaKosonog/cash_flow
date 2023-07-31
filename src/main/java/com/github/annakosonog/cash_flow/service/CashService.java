@@ -42,10 +42,10 @@ public class CashService {
                 .collect(Collectors.toList());
     }
 
-
     private boolean isValid(CashFlowDto newCash) {
         return (newCash.getShop() != null && newCash.getDate() != null && newCash.getPrice() != null);
     }
+
     public void deleteCashFlowById(Long id) {
         CashFlow  cash = cashRepository.findById(id)
                 .orElseThrow(() -> new DateNotFoundException("Cash_flow not found"));
