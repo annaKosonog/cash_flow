@@ -1,8 +1,7 @@
 package com.github.annakosonog.cash_flow.csv;
 
+import com.github.annakosonog.cash_flow.controller.CashController;
 import com.github.annakosonog.cash_flow.model.SimpleCashDto;
-import com.github.annakosonog.cash_flow.service.CashService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,16 +25,13 @@ class ExportCsvCashControllerTest implements SimpleCashDto {
     MockMvc mockMvc;
 
     @Autowired
-    CashService cashService;
-
-    @BeforeEach
-    void setupUp() {
-        cashService.addNewCashFlow(firstCashFlowDto());
-        cashService.addNewCashFlow(secondCashFlowDto());
-    }
+    CashController cashController;
 
     @Test
     void downloadFile_DataCorrect_ShouldReturnHttpStatusOk() throws Exception {
+        cashController.addNewCash(firstCashFlowDto());
+        cashController.addNewCash(secondCashFlowDto());
+
         File file = File.createTempFile("example", ".csv");
 
         mockMvc.perform(MockMvcRequestBuilders.get(EXPORT_CSV_PATH)
@@ -52,18 +48,18 @@ class ExportCsvCashControllerTest implements SimpleCashDto {
         file.delete();
 
         mockMvc.perform(MockMvcRequestBuilders.get(EXPORT_CSV_PATH)
-                .param("file", file.getAbsolutePath())
+                .param("file", file.getName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
                 .andDo(print())
                 .andExpect(status().isNotFound());
-        file.delete();
     }
 
     @Test
     void downloadFile_DataIncorrect_ShouldReturnHttpStatusBadRequest() throws Exception {
+        cashController.deleteCashFlow(1L);
+        cashController.deleteCashFlow(2L);
+
         File file = File.createTempFile("example", ".csv");
-        cashService.deleteCashFlowById(1L);
-        cashService.deleteCashFlowById(2L);
 
         mockMvc.perform(MockMvcRequestBuilders.get(EXPORT_CSV_PATH)
                 .param("file", file.getAbsolutePath())

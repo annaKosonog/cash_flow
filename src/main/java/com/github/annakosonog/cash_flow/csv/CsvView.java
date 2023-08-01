@@ -33,28 +33,32 @@ public class CsvView {
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + fileName + "_" + currentDateTime + ".csv";
+        String headerValue = "attachment; filename=" + fileName.getName() + "_" + currentDateTime + ".csv";
 
         response.setHeader(headerKey, headerValue);
     }
 
-    public  void prepareCsvData(HttpServletResponse response) {
+    public  void writeCsvData(HttpServletResponse response) {
         try(Writer writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8)) {
         writer.write("\uFEFF");
-        ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.STANDARD_PREFERENCE);
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-        List<CashFlowDto> listCash = cashService.getAllCashFlow();
+            List<CashFlowDto> listCash = prepareCsvData();
 
-        String[] csvHeader = {"Date", "Shop", "Price"};
-        String[] nameMapping = {"date", "shop", "price"};
-        csvWriter.writeHeader(csvHeader);
+            String[] csvHeader = {"Date", "Shop", "Price"};
+            String[] nameMapping = {"date", "shop", "price"};
+            csvWriter.writeHeader(csvHeader);
 
-        for (CashFlowDto dto : listCash) {
-            csvWriter.write(dto, nameMapping);
-        }
-        csvWriter.close();
-        }catch (IOException e){
+            for (CashFlowDto dto : listCash) {
+                csvWriter.write(dto, nameMapping);
+            }
+            csvWriter.close();
+        } catch (IOException e) {
             throw new HttpMessageNotWritableException("Could not prepare CSV file: " + e.getMessage());
         }
+    }
+
+    protected List<CashFlowDto> prepareCsvData() {
+        return cashService.getAllCashFlow();
     }
 }

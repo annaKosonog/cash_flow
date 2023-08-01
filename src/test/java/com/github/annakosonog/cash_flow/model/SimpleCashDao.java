@@ -60,7 +60,7 @@ public interface SimpleCashDao {
 
     default CashFlow csvFirstDaoAfterSaved() {
         return CashFlow.builder()
-                .id(1L)
+                .id(4L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("30.0"))
@@ -68,7 +68,6 @@ public interface SimpleCashDao {
     }
     default CashFlow csvFirstDaoBeforeSaving() {
         return CashFlow.builder()
-                .id(1L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("30.0"))
@@ -77,7 +76,7 @@ public interface SimpleCashDao {
 
     default CashFlow csvSecondDaoAfterSaved() {
         return CashFlow.builder()
-                .id(2L)
+                .id(5L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.GAS_STATION)
                 .price(new BigDecimal("250.0"))
