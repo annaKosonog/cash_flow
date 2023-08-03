@@ -3,6 +3,8 @@ package com.github.annakosonog.cash_flow.csv;
 import com.github.annakosonog.cash_flow.model.CashFlowDto;
 import com.github.annakosonog.cash_flow.service.CashService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.stereotype.Component;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
@@ -26,30 +28,37 @@ public class CsvView {
     private final CashService cashService;
 
     protected void prepareResponse(HttpServletResponse response, File fileName) {
-        response.setContentType("cash/csv");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + fileName + "_" + currentDateTime + ".csv";
+        String headerValue = "attachment; filename=" + fileName.getName() + "_" + currentDateTime + ".csv";
 
         response.setHeader(headerKey, headerValue);
     }
 
-    protected void buildCsvDocumentProject(HttpServletResponse response) throws IOException {
-        Writer writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+    public  void writeCsvData(HttpServletResponse response) {
+        try(Writer writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8)) {
         writer.write("\uFEFF");
         ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
 
-        List<CashFlowDto> listCash = cashService.getAllCashFlow();
+            List<CashFlowDto> listCash = prepareCsvData();
 
-        String[] csvHeader = {"Date", "Shop", "Price"};
-        String[] nameMapping = {"date", "shop", "price"};
-        csvWriter.writeHeader(csvHeader);
+            String[] csvHeader = {"Date", "Shop", "Price"};
+            String[] nameMapping = {"date", "shop", "price"};
+            csvWriter.writeHeader(csvHeader);
 
-        for (CashFlowDto dto : listCash) {
-            csvWriter.write(dto, nameMapping);
+            for (CashFlowDto dto : listCash) {
+                csvWriter.write(dto, nameMapping);
+            }
+            csvWriter.close();
+        } catch (IOException e) {
+            throw new HttpMessageNotWritableException("Could not prepare CSV file: " + e.getMessage());
         }
-        csvWriter.close();
+    }
+
+    protected List<CashFlowDto> prepareCsvData() {
+        return cashService.getAllCashFlow();
     }
 }

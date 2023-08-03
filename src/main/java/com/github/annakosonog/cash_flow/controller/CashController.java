@@ -33,7 +33,7 @@ public class CashController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewCash(@RequestBody CashDto newCash) {
+    public ResponseEntity<String> addNewCash(@RequestBody CashFlowDto newCash) {
         cashService.addNewCashFlow(newCash);
         return ResponseEntity.ok("Cash_flow was added successfully");
     }

@@ -5,8 +5,8 @@ import java.time.LocalDate;
 
 public interface SimpleCashDao {
 
-    default Cash firstCashFlowDao() {
-        return Cash.builder()
+    default CashFlow firstCashFlowDao() {
+        return CashFlow.builder()
                 .id(1L)
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.SUPERMARKET)
@@ -14,12 +14,21 @@ public interface SimpleCashDao {
                 .build();
     }
 
-    default Cash secondCashFlowDao() {
-        return Cash.builder()
+    default CashFlow secondCashFlowDao() {
+        return CashFlow.builder()
                 .id(2L)
                 .date(LocalDate.now().plusDays(2))
                 .shop(Shop.HAIRDRESSER)
                 .price(new BigDecimal("20.0"))
+                .build();
+    }
+
+    default CashFlow newExpenseDaoWithId() {
+        return CashFlow.builder()
+                .id(3L)
+                .date(LocalDate.now().plusDays(1))
+                .shop(Shop.GAS_STATION)
+                .price(new BigDecimal("50.0"))
                 .build();
     }
 
@@ -51,7 +60,7 @@ public interface SimpleCashDao {
 
     default CashFlow csvFirstDaoAfterSaved() {
         return CashFlow.builder()
-                .id(1L)
+                .id(4L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("30.0"))
@@ -59,7 +68,6 @@ public interface SimpleCashDao {
     }
     default CashFlow csvFirstDaoBeforeSaving() {
         return CashFlow.builder()
-                .id(1L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.SUPERMARKET)
                 .price(new BigDecimal("30.0"))
@@ -68,7 +76,7 @@ public interface SimpleCashDao {
 
     default CashFlow csvSecondDaoAfterSaved() {
         return CashFlow.builder()
-                .id(2L)
+                .id(5L)
                 .date(LocalDate.of(2023, 7, 18))
                 .shop(Shop.GAS_STATION)
                 .price(new BigDecimal("250.0"))

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,16 +26,13 @@ public class CSVHelper {
     static String[] HEADERs = {"Date", "Shop", "Price"};
 
     public static boolean hasCSVFormat(MultipartFile file) {
-        if (!TYPE.equals(file.getContentType())) {
-            return false;
-        }
-        return true;
+        return TYPE.equals(file.getContentType());
     }
 
     public static List<CashFlowDto> toReadTheCSVFile(InputStream is) {
         List<CashFlowDto> cashFlowDtoList = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(bufferedReader, CSVFormat.newFormat(',')
                      .withDelimiter(';')
                      .withQuote('"')
